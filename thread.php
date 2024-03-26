@@ -29,7 +29,8 @@
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         //insert thread into db
         $comment = $_POST['comment'];
-        $sql = "INSERT INTO comments (`comment_content`,`thread_id`,`comment_by`) VALUES ('$comment','$id','0')";
+        $comment_by = $_POST['sno'];
+        $sql = "INSERT INTO comments (`comment_content`,`thread_id`,`comment_by`) VALUES ('$comment','$id','$comment_by')";
         $result = mysqli_query($conn, $sql);
         echo '<div class="alert alert-success alert-dismissible fade show" role="alert">
         <strong>Success! </strong> Your comment has been added!
@@ -63,6 +64,7 @@
                 <label for="comment">Type your comment</label>
                 <textarea class="form-control" id="comment" name="comment" rows="3"></textarea>
             </div>
+            <input  type="hidden" name="sno" value="'.$_SESSION['sno'].'">
             <button type="submit" class="btn btn-success">Post Comment</button>
         </form>
     </div>';
@@ -85,11 +87,15 @@
             $id = $row['comment_id'];
             $content = $row['comment_content'];
             $comment_time = $row['comment_time'];
+            $comment_by = $row['comment_by'];
+            $sql2 = "SELECT user_email FROM users WHERE sno = $comment_by";
+            $result2 = mysqli_query($conn, $sql2);
+            $row2 = mysqli_fetch_assoc($result2);
             $date = new DateTime($comment_time);
             echo '<div class="media">
                     <img src="images/user.jpg" class="mr-3" width="40px" alt="...">
                     <div class="media-body">
-                    <p class="font-weight-bold my-0">Anonymous User at ' . date_format($date, 'd-m-Y') . '</p>
+                    <p class="font-weight-bold my-0">'.$row2['user_email'].' at ' . date_format($date, 'd-m-Y') . '</p>
                         <p>' . $content . '</p>
                     </div>
                 </div>';

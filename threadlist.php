@@ -30,7 +30,8 @@
         //insert thread into db
         $th_title = $_POST['threadtitle'];
         $th_desc = $_POST['threaddesc'];
-        $sql = "INSERT INTO threads (`thread_title`,`thread_desc`,`thread_user_id`,`thread_category_id`) VALUES ('$th_title','$th_desc','0','$id')";
+        $th_user_id = $_POST['sno'];
+        $sql = "INSERT INTO threads (`thread_title`,`thread_desc`,`thread_user_id`,`thread_category_id`) VALUES ('$th_title','$th_desc','$th_user_id','$id')";
         $result = mysqli_query($conn, $sql);
         echo '<div class="alert alert-success alert-dismissible fade show" role="alert">
         <strong>Success! </strong> Your thread has been added! Please wait for community to respond.
@@ -70,6 +71,7 @@
                 <label for="threaddesc">Ellaborate Your Concerns</label>
                 <textarea class="form-control" id="threaddesc" name="threaddesc" rows="3"></textarea>
             </div>
+            <input  type="hidden" name="sno" value="'.$_SESSION['sno'].'">
             <button type="submit" class="btn btn-success">Submit</button>
         </form>
     </div>';
@@ -93,14 +95,18 @@
             $title = $row['thread_title'];
             $description = $row['thread_desc'];
             $thread_time = $row['timestamp'];
+            $thread_user_id = $row['thread_user_id'];
+            $sql2 = "SELECT user_email FROM users WHERE sno = $thread_user_id";
+            $result2 = mysqli_query($conn, $sql2);
+            $row2 = mysqli_fetch_assoc($result2);
             $date = new DateTime($thread_time);
             echo '<div class="media">
                     <img src="images/user.jpg" class="mr-3" width="40px" alt="...">
                     <div class="media-body">
-                        <p class="font-weight-bold my-0">Anonymous User at ' . date_format($date, 'd-m-Y') . '</p>
                         <h5 class="mt-0"><a class="text-dark" href="thread.php?threadid=' . $id . '">' . $title . '</a></h5>
                         <p>' . $description . '</p>
                     </div>
+                    <p class="font-weight-bold my-0">Asked by: '.$row2['user_email'].' at ' . date_format($date, 'd-m-Y') . '</p>
                 </div>';
         }
         if ($noresult) {
