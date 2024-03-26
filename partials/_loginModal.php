@@ -11,13 +11,13 @@
             <div class="modal-body">
                 <form action="/FORUM/partials/_handleLogin.php" method="POST">
                     <div class=" form-group">
-                        <label for="email">Email address</label>
-                        <input type="email" class="form-control" id="email" name="email">
+                        <label for="lemail">Email address</label>
+                        <input type="email" class="form-control" id="lemail" name="lemail">
 
                     </div>
                     <div class="form-group">
-                        <label for="password">Password</label>
-                        <input type="password" class="form-control" id="password" name="password">
+                        <label for="lpassword">Password</label>
+                        <input type="password" class="form-control" id="lpassword" name="lpassword">
                     </div>
                     <button type="submit" class="btn btn-primary">Login</button>
                 </form>

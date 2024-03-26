@@ -14,8 +14,9 @@
 </head>
 
 <body>
-    <?php require "partials/_header.php"; ?>
     <?php include "partials/_dbconnect.php"; ?>
+    <?php require "partials/_header.php"; ?>
+    
     <!--Slider-->
     <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
         <ol class="carousel-indicators">
@@ -57,7 +58,7 @@
                 $category_description = $row['category_description'];
                 echo '<div class="col-md-4 my-2">
                         <div class="card" style="width: 18rem;">
-                            <img src="images/' . $category_name . '.jpg" class="card-img-top" style="height:150px">
+                            <img src="images/' . $category_name . '.jpg" class="card-img-top" height=150px>
                             <div class="card-body">
                                 <h5 class="card-title">' . $category_name . '</h5>
                                 <p class="card-text">' . substr($category_description, 0, 50) . '...</p>

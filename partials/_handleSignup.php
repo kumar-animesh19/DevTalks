@@ -2,9 +2,9 @@
 $showError = false;
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     include '_dbconnect.php';
-    $user_email = $_POST['email'];
-    $password = $_POST['password'];
-    $cpassword = $_POST['cpassword'];
+    $user_email = $_POST['semail'];
+    $password = $_POST['spassword'];
+    $cpassword = $_POST['scpassword'];
 
     //check whether this email exists
     $existSql = "SELECT * FROM users WHERE user_email='$user_email'";

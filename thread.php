@@ -14,8 +14,9 @@
 </head>
 
 <body>
-    <?php require "partials/_header.php"; ?>
     <?php include "partials/_dbconnect.php"; ?>
+    <?php require "partials/_header.php"; ?>
+
     <?php
     $id = $_GET['threadid'];
     $sql = "SELECT * FROM threads WHERE thread_id = $id";
@@ -23,13 +24,23 @@
     if ($row = mysqli_fetch_assoc($result)) {
         $title = $row['thread_title'];
         $description = $row['thread_desc'];
+        $thread_user_id = $row['thread_user_id'];
+        $sql2 = "SELECT user_email FROM users WHERE sno = $thread_user_id";
+        $result2 = mysqli_query($conn, $sql2);
+        $row2 = mysqli_fetch_assoc($result2);
+        $user_email = $row2['user_email'];
     }
     ?>
     <?php
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         //insert thread into db
         $comment = $_POST['comment'];
+
+        $comment = str_replace('<', '&lt;', $comment);
+        $comment = str_replace('>', '&gt;', $comment);
+
         $comment_by = $_POST['sno'];
+
         $sql = "INSERT INTO comments (`comment_content`,`thread_id`,`comment_by`) VALUES ('$comment','$id','$comment_by')";
         $result = mysqli_query($conn, $sql);
         echo '<div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -52,7 +63,9 @@
             <p>This is peer to peer forum. No Spam / Advertising / Self-promote in this forum is not allowed. Do not
                 post copyright-infringing material. Do not post "offensive" posts, links, images. Do not cross post
                 questions. Remain respectful of others at all times.</p>
-            <p>Posted by : <b>Animesh</b></p>
+            <p>Posted by : <em>
+                    <?php echo $user_email ?>
+                </em></p>
         </div>
     </div>
     <?php
@@ -64,7 +77,7 @@
                 <label for="comment">Type your comment</label>
                 <textarea class="form-control" id="comment" name="comment" rows="3"></textarea>
             </div>
-            <input  type="hidden" name="sno" value="'.$_SESSION['sno'].'">
+            <input  type="hidden" name="sno" value="' . $_SESSION['sno'] . '">
             <button type="submit" class="btn btn-success">Post Comment</button>
         </form>
     </div>';
@@ -95,7 +108,7 @@
             echo '<div class="media">
                     <img src="images/user.jpg" class="mr-3" width="40px" alt="...">
                     <div class="media-body">
-                    <p class="font-weight-bold my-0">'.$row2['user_email'].' at ' . date_format($date, 'd-m-Y') . '</p>
+                    <p class="font-weight-bold my-0">' . $row2['user_email'] . ' at ' . date_format($date, 'd-m-Y') . '</p>
                         <p>' . $content . '</p>
                     </div>
                 </div>';
@@ -104,7 +117,7 @@
             echo '<div class="jumbotron jumbotron-fluid">
             <div class="container">
               <p class="display-4">No Comments Found</p>
-              <p class="lead">Be the first person to post comments.</p>
+              <p class="lead">Be the first person to comments.</p>
             </div>
           </div>';
         }

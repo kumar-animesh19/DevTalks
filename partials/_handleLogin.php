@@ -1,8 +1,8 @@
 <?php
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
     include '_dbconnect.php';
-    $user_email = $_POST['email'];
-    $user_pass = $_POST['password'];
+    $user_email = $_POST['lemail'];
+    $user_pass = $_POST['lpassword'];
     $sql = "SELECT * FROM users WHERE user_email='$user_email'";
     $result = mysqli_query($conn, $sql);
     if (mysqli_num_rows($result) > 0) {

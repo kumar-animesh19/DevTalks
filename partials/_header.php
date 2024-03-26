@@ -1,7 +1,7 @@
 <?php
 session_start();
 echo '<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-<a class="navbar-brand" href="/FORUM">DevTalks</a>
+<a class="navbar-brand" href="/FORUM"><img src="images/logo.png" width=100px></a>
 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
   <span class="navbar-toggler-icon"></span>
 </button>
@@ -16,21 +16,22 @@ echo '<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     </li>
     <li class="nav-item dropdown">
       <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
-        Categories
+        Top Categories
       </a>
-      <div class="dropdown-menu">
-        <a class="dropdown-item" href="#">Action</a>
-        <a class="dropdown-item" href="#">Another action</a>
-        <div class="dropdown-divider"></div>
-        <a class="dropdown-item" href="#">Something else here</a>
-      </div>
+      <div class="dropdown-menu">';
+      $sql = "SELECT category_name, category_id FROM  categories";
+      $result = mysqli_query($conn,$sql);
+      while( $row = mysqli_fetch_assoc($result)){
+        echo '<a class="dropdown-item" href="threadlist.php?catid=' . $row['category_id'] . '">'.$row['category_name'].'</a>';
+      }
+echo '</div>
     </li>
     <li class="nav-item">
       <a class="nav-link" href="contact.php">Contact</a>
     </li>
   </ul>
-  <form class="form-inline my-2 my-lg-0">
-    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+  <form action="search.php" method="GET" class="form-inline my-2 my-lg-0">
+    <input class="form-control mr-sm-2" name="query" type="search" placeholder="Search" aria-label="Search">
     <button class="btn btn-success my-2 my-sm-0" type="submit">Search</button>
   </form>';
 if (isset ($_SESSION['loggedin']) && $_SESSION['loggedin'] == true) {

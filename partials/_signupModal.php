@@ -11,16 +11,16 @@
             <div class="modal-body">
                 <form action="/FORUM/partials/_handleSignup.php" method="POST">
                     <div class="form-group">
-                        <label for="email">Email address</label>
-                        <input type="email" class="form-control" id="email" name="email" required>
+                        <label for="semail">Email address</label>
+                        <input type="email" class="form-control" id="semail" name="semail" required>
                     </div>
                     <div class="form-group">
-                        <label for="password">Password</label>
-                        <input type="password" class="form-control" id="password" name="password" required>
+                        <label for="spassword">Password</label>
+                        <input type="password" class="form-control" id="spassword" name="spassword" required>
                     </div>
                     <div class="form-group">
-                        <label for="cpassword">Password</label>
-                        <input type="password" class="form-control" id="cpassword" name="cpassword" required>
+                        <label for="scpassword">Password</label>
+                        <input type="password" class="form-control" id="scpassword" name="scpassword" required>
                     </div>
                     <button type="submit" class="btn btn-primary">Signup</button>
                 </form>

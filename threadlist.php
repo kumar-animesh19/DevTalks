@@ -14,8 +14,9 @@
 </head>
 
 <body>
-    <?php require "partials/_header.php"; ?>
     <?php include "partials/_dbconnect.php"; ?>
+    <?php require "partials/_header.php"; ?>
+    
     <?php
     $id = $_GET['catid'];
     $sql = "SELECT * FROM categories WHERE category_id = $id";
@@ -30,7 +31,15 @@
         //insert thread into db
         $th_title = $_POST['threadtitle'];
         $th_desc = $_POST['threaddesc'];
+
+        $th_title = str_replace('<', '&lt;', $th_title);
+        $th_title = str_replace('>', '&gt;', $th_title);
+
+        $th_desc = str_replace('<', '&lt;', $th_desc);
+        $th_desc = str_replace('>', '&gt;', $th_desc);
+
         $th_user_id = $_POST['sno'];
+
         $sql = "INSERT INTO threads (`thread_title`,`thread_desc`,`thread_user_id`,`thread_category_id`) VALUES ('$th_title','$th_desc','$th_user_id','$id')";
         $result = mysqli_query($conn, $sql);
         echo '<div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -71,7 +80,7 @@
                 <label for="threaddesc">Ellaborate Your Concerns</label>
                 <textarea class="form-control" id="threaddesc" name="threaddesc" rows="3"></textarea>
             </div>
-            <input  type="hidden" name="sno" value="'.$_SESSION['sno'].'">
+            <input  type="hidden" name="sno" value="' . $_SESSION['sno'] . '">
             <button type="submit" class="btn btn-success">Submit</button>
         </form>
     </div>';
@@ -106,7 +115,7 @@
                         <h5 class="mt-0"><a class="text-dark" href="thread.php?threadid=' . $id . '">' . $title . '</a></h5>
                         <p>' . $description . '</p>
                     </div>
-                    <p class="font-weight-bold my-0">Asked by: '.$row2['user_email'].' at ' . date_format($date, 'd-m-Y') . '</p>
+                    <p class="font-weight-bold my-0">Asked by: ' . $row2['user_email'] . ' at ' . date_format($date, 'd-m-Y') . '</p>
                 </div>';
         }
         if ($noresult) {
